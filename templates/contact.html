@@ -1,0 +1,270 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .contact-section {
+        padding: 60px 0;
+        min-height: 80vh;
+    }
+
+    .contact-heading {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .contact-heading h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary, #222);
+    }
+
+    .contact-heading p {
+        color: var(--text-secondary, #666);
+        font-size: 1.05rem;
+    }
+
+    .contact-card {
+        background: var(--card-bg, #ffffff);
+        border: 1px solid var(--border-color, #e5e7eb);
+        border-radius: 18px;
+        padding: 30px;
+        height: 100%;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .contact-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .contact-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: rgba(124, 58, 237, 0.12);
+        color: #7c3aed;
+        font-size: 20px;
+    }
+
+    .contact-info-item h5 {
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: var(--text-primary, #222);
+    }
+
+    .contact-info-item p {
+        margin: 0;
+        color: var(--text-secondary, #666);
+        overflow-wrap: anywhere;
+    }
+
+    .contact-form .form-label {
+        font-weight: 600;
+        color: var(--text-primary, #222);
+    }
+
+    .contact-form .form-control {
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border-color, #ddd);
+        background: var(--bg-color, #fff);
+        color: var(--text-primary, #222);
+    }
+
+    .contact-form .form-control:focus {
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.15);
+    }
+
+    .contact-btn {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        background: linear-gradient(135deg, #7c3aed, #4f46e5);
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .contact-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.95;
+    }
+
+    @media (max-width: 768px) {
+        .contact-section {
+            padding: 35px 12px;
+        }
+
+        .contact-heading h1 {
+            font-size: 2rem;
+        }
+
+        .contact-card {
+            padding: 22px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="contact-section">
+    <div class="container">
+
+        <div class="contact-heading">
+            <h1>
+                <i class="fas fa-headset" style="color: #7c3aed;"></i>
+                Contact Us
+            </h1>
+            <p>
+                Have a question or need help? We'd love to hear from you.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Contact Information -->
+            <div class="col-lg-5">
+                <div class="contact-card">
+                    <h3 class="mb-4">Get in Touch</h3>
+
+                    <p class="mb-4" style="color: var(--text-secondary, #666);">
+                        Contact us for assistance, feedback, or questions
+                        about the Visual Risk and AI Intelligence platform.
+                    </p>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h5>Email</h5>
+                            <p>support@digitaltwin.ai</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h5>Support Hours</h5>
+                            <p>Monday – Friday</p>
+                            <p>9:00 AM – 5:00 PM</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div>
+                            <h5>Feedback</h5>
+                            <p>
+                                Share your suggestions to help us improve
+                                the platform.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 rounded"
+                         style="background: rgba(124, 58, 237, 0.08);">
+                        <i class="fas fa-lightbulb"
+                           style="color: #7c3aed;"></i>
+                        <strong>We're here to help!</strong>
+                        <p class="mb-0 mt-2"
+                           style="color: var(--text-secondary, #666);">
+                            Use the form to send your message to our team.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                <div class="contact-card">
+                    <h3 class="mb-4">Send Us a Message</h3>
+
+                    <form method="POST"
+                          action="{{ url_for('contact') }}"
+                          class="contact-form">
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                Full Name
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                placeholder="Enter your full name"
+                                value="{{ request.form.get('name', '') }}"
+                                maxlength="100"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email address"
+                                value="{{ request.form.get('email', '') }}"
+                                maxlength="120"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">
+                                Subject
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="subject"
+                                name="subject"
+                                placeholder="What is your message about?"
+                                maxlength="150"
+                                required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="message" class="form-label">
+                                Message
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="message"
+                                name="message"
+                                rows="5"
+                                placeholder="Write your message here..."
+                                maxlength="3000"
+                                required></textarea>
+                        </div>
+
+                        <button type="submit" class="contact-btn">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Send Message
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,527 @@
+
+{% extends "base.html" %}
+
+{% block title %}Financial Management{% endblock %}
+
+{% block extra_css %}
+<style>
+.financial-page {
+    padding: 25px;
+    background: #f3f5fc;
+    color: #29334a;
+    min-height: 100vh;
+}
+.financial-page * { box-sizing: border-box; }
+
+.financial-page h1 {
+    font-size: 28px;
+    margin: 10px 0 22px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    padding: 22px;
+    color: white;
+    border-radius: 13px;
+    min-height: 105px;
+}
+.summary-card p { margin: 0; font-size: 13px; }
+.summary-card h2 { margin: 10px 0 5px; font-size: 27px; }
+.income { background: linear-gradient(120deg,#39b987,#24966d); }
+.expenses { background: linear-gradient(120deg,#ff8877,#f04f42); }
+.savings { background: linear-gradient(120deg,#35a5e7,#2768b7); }
+.rate { background: linear-gradient(120deg,#f16aa2,#d94381); }
+
+.columns {
+    display: grid;
+    grid-template-columns: minmax(280px,.8fr) minmax(0,1.6fr);
+    gap: 18px;
+}
+
+.panel {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 15px #25304a0d;
+    overflow: hidden;
+}
+
+.panel-heading {
+    padding: 16px;
+    border-bottom: 1px solid #edf0f6;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.panel-body { padding: 18px; }
+
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dfe4ef;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.primary-button {
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 25px;
+    background: linear-gradient(110deg,#647ff0,#8051ad);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 550px; }
+th, td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #edf0f6;
+    text-align: left;
+    font-size: 12px;
+}
+th { color: #718096; text-transform: uppercase; }
+
+.action-button {
+    padding: 6px 9px;
+    margin: 2px;
+    border: 1px solid #dfe4ef;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+}
+.delete-button { color: #d94350; }
+
+.chart {
+    width: 100%;
+    height: 220px;
+    display: block;
+}
+.chart-grid { stroke: #e8edf6; stroke-width: 1; }
+.chart-line {
+    fill: none;
+    stroke: #647ee9;
+    stroke-width: 3;
+}
+.chart-dot { fill: #647ee9; }
+
+.category-list { display: grid; gap: 12px; }
+.category-row {
+    display: grid;
+    grid-template-columns: 95px 1fr 80px;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+}
+.category-bar {
+    height: 9px;
+    background: #647ee9;
+    border-radius: 10px;
+}
+.empty {
+    padding: 25px;
+    text-align: center;
+    color: #718096;
+}
+
+@media(max-width: 900px) {
+    .summary { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .columns { grid-template-columns: 1fr; }
+}
+@media(max-width: 520px) {
+    .financial-page { padding: 12px; }
+    .summary { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="financial-page">
+
+    <h1>💰 Financial Management</h1>
+
+    <div class="summary">
+        <div class="summary-card income">
+            <p>Total Income</p>
+            <h2 id="totalIncome">₹0.00</h2>
+            <p>All recorded income</p>
+        </div>
+
+        <div class="summary-card expenses">
+            <p>Total Expenses</p>
+            <h2 id="totalExpenses">₹0.00</h2>
+            <p>All recorded expenses</p>
+        </div>
+
+        <div class="summary-card savings">
+            <p>Net Savings</p>
+            <h2 id="netSavings">₹0.00</h2>
+            <p>Income minus expenses</p>
+        </div>
+
+        <div class="summary-card rate">
+            <p>Savings Rate</p>
+            <h2 id="savingsRate">0%</h2>
+            <p>Percentage saved</p>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div>
+            <section class="panel">
+                <div class="panel-heading">➕ Add Transaction</div>
+                <div class="panel-body">
+                    <form id="transactionForm">
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" required>
+                                <option>Food</option>
+                                <option>Transport</option>
+                                <option>Shopping</option>
+                                <option>Bills</option>
+                                <option>Education</option>
+                                <option>Health</option>
+                                <option>Salary</option>
+                                <option>Business</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="amount">Amount (₹)</label>
+                            <input type="number" id="amount"
+                                   min="0.01" step="0.01"
+                                   placeholder="0.00" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <select id="type">
+                                <option value="Expense">Expense</option>
+                                <option value="Income">Income</option>
+                            </select>
+                        </div>
+
+                        <button class="primary-button" type="submit">
+                            ▣ Add Transaction
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">🥧 Spending by Category</div>
+                <div class="panel-body">
+                    <div id="categoryList" class="category-list">
+                        <p class="empty">No expenses recorded yet.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div>
+            <section class="panel">
+                <div class="panel-heading">
+                    📋 Recent Transactions
+                    <span id="count">0 entries</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionRows">
+                            <tr>
+                                <td colspan="5" class="empty">
+                                    No transactions yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    📈 Expense Forecast (Next 6 Months)
+                </div>
+                <div class="panel-body">
+                    <svg class="chart" viewBox="0 0 600 220"
+                         role="img" aria-label="Expense forecast chart">
+                        <line class="chart-grid" x1="40" y1="30" x2="580" y2="30"/>
+                        <line class="chart-grid" x1="40" y1="70" x2="580" y2="70"/>
+                        <line class="chart-grid" x1="40" y1="110" x2="580" y2="110"/>
+                        <line class="chart-grid" x1="40" y1="150" x2="580" y2="150"/>
+                        <line class="chart-grid" x1="40" y1="190" x2="580" y2="190"/>
+
+                        <polyline id="forecastLine" class="chart-line"
+                            points="40,180 140,180 240,180 340,180 440,180 540,180"/>
+
+                        <g id="forecastDots"></g>
+
+                        <text x="40" y="210" font-size="11">Month 1</text>
+                        <text x="135" y="210" font-size="11">Month 2</text>
+                        <text x="235" y="210" font-size="11">Month 3</text>
+                        <text x="335" y="210" font-size="11">Month 4</text>
+                        <text x="435" y="210" font-size="11">Month 5</text>
+                        <text x="530" y="210" font-size="11">Month 6</text>
+                    </svg>
+                    <p id="forecastNote">
+                        Add expenses to see a simple estimated forecast.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const key = "visualRiskFinancialTransactions";
+    const form = document.getElementById("transactionForm");
+    const dateInput = document.getElementById("date");
+    const categoryInput = document.getElementById("category");
+    const amountInput = document.getElementById("amount");
+    const typeInput = document.getElementById("type");
+    const rows = document.getElementById("transactionRows");
+
+    let transactions = [];
+
+    try {
+        transactions = JSON.parse(localStorage.getItem(key) || "[]");
+        if (!Array.isArray(transactions)) transactions = [];
+    } catch (error) {
+        transactions = [];
+    }
+
+    function localDate() {
+        const d = new Date();
+        return d.getFullYear() + "-" +
+            String(d.getMonth() + 1).padStart(2, "0") + "-" +
+            String(d.getDate()).padStart(2, "0");
+    }
+
+    dateInput.value = localDate();
+
+    function money(value) {
+        return "₹" + Number(value).toLocaleString("en-IN", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    function save() {
+        localStorage.setItem(key, JSON.stringify(transactions));
+        render();
+    }
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const amount = Number(amountInput.value);
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+            alert("Please enter an amount greater than zero.");
+            return;
+        }
+
+        transactions.push({
+            id: Date.now() + Math.random(),
+            date: dateInput.value,
+            category: categoryInput.value,
+            amount: amount,
+            type: typeInput.value
+        });
+
+        save();
+        form.reset();
+        dateInput.value = localDate();
+        alert("Transaction added.");
+    });
+
+    function render() {
+        const income = transactions
+            .filter(t => t.type === "Income")
+            .reduce((sum, t) => sum + Number(t.amount), 0);
+
+        const expenses = transactions
+            .filter(t => t.type === "Expense")
+            .reduce((sum, t) => sum + Number(t.amount), 0);
+
+        const net = income - expenses;
+        const rate = income > 0 ? net / income * 100 : 0;
+
+        document.getElementById("totalIncome").textContent = money(income);
+        document.getElementById("totalExpenses").textContent = money(expenses);
+        document.getElementById("netSavings").textContent = money(net);
+        document.getElementById("savingsRate").textContent = rate.toFixed(1) + "%";
+        document.getElementById("count").textContent =
+            transactions.length + " entries";
+
+        rows.innerHTML = "";
+
+        const sorted = transactions.slice().sort(
+            (a, b) => b.date.localeCompare(a.date)
+        );
+
+        if (sorted.length === 0) {
+            rows.innerHTML =
+                '<tr><td colspan="5" class="empty">No transactions yet.</td></tr>';
+        }
+
+        sorted.forEach(function (t) {
+            const tr = document.createElement("tr");
+
+            [t.date, t.category, money(t.amount), t.type].forEach(function (value) {
+                const td = document.createElement("td");
+                td.textContent = value;
+                tr.appendChild(td);
+            });
+
+            const actions = document.createElement("td");
+
+            const edit = document.createElement("button");
+            edit.textContent = "Edit";
+            edit.className = "action-button";
+            edit.onclick = function () {
+                dateInput.value = t.date;
+                categoryInput.value = t.category;
+                amountInput.value = t.amount;
+                typeInput.value = t.type;
+
+                transactions = transactions.filter(item => item.id !== t.id);
+                save();
+                amountInput.focus();
+                alert("Edit the values in the form, then click Add Transaction.");
+            };
+
+            const del = document.createElement("button");
+            del.textContent = "Delete";
+            del.className = "action-button delete-button";
+            del.onclick = function () {
+                if (confirm("Delete this transaction?")) {
+                    transactions = transactions.filter(item => item.id !== t.id);
+                    save();
+                }
+            };
+
+            actions.append(edit, del);
+            tr.appendChild(actions);
+            rows.appendChild(tr);
+        });
+
+        renderCategories();
+        renderForecast(expenses);
+    }
+
+    function renderCategories() {
+        const list = document.getElementById("categoryList");
+        const totals = {};
+
+        transactions.filter(t => t.type === "Expense").forEach(function (t) {
+            totals[t.category] = (totals[t.category] || 0) + Number(t.amount);
+        });
+
+        const entries = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+        const total = entries.reduce((sum, item) => sum + item[1], 0);
+
+        list.innerHTML = "";
+
+        if (entries.length === 0) {
+            list.innerHTML = '<p class="empty">No expenses recorded yet.</p>';
+            return;
+        }
+
+        entries.forEach(function (item) {
+            const row = document.createElement("div");
+            row.className = "category-row";
+
+            const name = document.createElement("span");
+            name.textContent = item[0];
+
+            const track = document.createElement("div");
+            track.style.background = "#edf0f6";
+            track.style.borderRadius = "10px";
+            track.style.overflow = "hidden";
+
+            const bar = document.createElement("div");
+            bar.className = "category-bar";
+            bar.style.width = (item[1] / total * 100) + "%";
+            track.appendChild(bar);
+
+            const value = document.createElement("span");
+            value.textContent = money(item[1]);
+
+            row.append(name, track, value);
+            list.appendChild(row);
+        });
+    }
+
+    function renderForecast(expenses) {
+        const months = new Set(
+            transactions.filter(t => t.type === "Expense")
+                .map(t => t.date.slice(0, 7))
+        );
+
+        const average = months.size ? expenses / months.size : 0;
+        const points = [];
+        const dots = document.getElementById("forecastDots");
+        dots.innerHTML = "";
+
+        for (let i = 0; i < 6; i++) {
+            const x = 40 + i * 100;
+            const y = 190 - Math.min(average / Math.max(average * 1.2, 100), 1) * 150;
+            points.push(x + "," + y);
+
+            const dot = document.createElementNS(
+                "http://www.w3.org/2000/svg", "circle"
+            );
+            dot.setAttribute("cx", x);
+            dot.setAttribute("cy", y);
+            dot.setAttribute("r", 4);
+            dot.setAttribute("class", "chart-dot");
+            dots.appendChild(dot);
+        }
+
+        document.getElementById("forecastLine")
+            .setAttribute("points", points.join(" "));
+
+        document.getElementById("forecastNote").textContent =
+            average > 0
+                ? "Estimated monthly expenses: " + money(average) +
+                  ". This is a simple estimate based on recorded expenses."
+                : "Add expenses to see a simple estimated forecast.";
+    }
+
+    render();
+});
+</script>
+{% endblock %}
