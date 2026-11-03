@@ -1,0 +1,139 @@
+
+{% extends "base.html" %}
+
+{% block title %}Terms & Conditions | Visual Risk and AI Intelligence{% endblock %}
+
+{% block extra_css %}
+<style>
+.terms-page {
+    max-width: 1000px;
+    margin: 35px auto;
+    padding: 35px;
+    background: #ffffff;
+    color: #29334a;
+    border-radius: 14px;
+    box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
+    line-height: 1.8;
+}
+.terms-page h1 {
+    color: #405de6;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.terms-page h2 {
+    margin-top: 28px;
+    font-size: 21px;
+    color: #344563;
+}
+.terms-page p, .terms-page li {
+    font-size: 15px;
+}
+.terms-page .updated {
+    color: #718096;
+    margin-bottom: 25px;
+}
+@media (max-width: 600px) {
+    .terms-page {
+        margin: 15px;
+        padding: 20px;
+    }
+    .terms-page h1 {
+        font-size: 26px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="terms-page">
+    <h1>Terms &amp; Conditions</h1>
+    <p class="updated">Visual Risk and AI Intelligence</p>
+
+    <p>
+        Welcome to Visual Risk and AI Intelligence. By accessing or using
+        this application, you agree to follow these Terms and Conditions.
+        Please read them carefully.
+    </p>
+
+    <h2>1. Purpose of the Application</h2>
+    <p>
+        This application is designed as a project to demonstrate dashboard
+        features, financial tracking, study planning, fitness tracking,
+        simulations, and AI-assisted insights.
+    </p>
+
+    <h2>2. User Responsibilities</h2>
+    <ul>
+        <li>Provide accurate information when using the application.</li>
+        <li>Keep your login credentials confidential.</li>
+        <li>Do not misuse the application or attempt unauthorized access.</li>
+        <li>Do not upload harmful or illegal content.</li>
+    </ul>
+
+    <h2>3. Account Security</h2>
+    <p>
+        You are responsible for protecting your account credentials and
+        for activities performed through your account. Contact the
+        application administrator if you suspect unauthorized access.
+    </p>
+
+    <h2>4. Financial Information</h2>
+    <p>
+        Financial features are intended for personal tracking and
+        demonstration purposes only. Information and calculations shown
+        by the application should not be treated as professional financial,
+        investment, tax, or legal advice.
+    </p>
+
+    <h2>5. AI-Generated Insights</h2>
+    <p>
+        Any AI-generated suggestions, risk indicators, forecasts, or
+        recommendations may be incomplete or inaccurate. Review results
+        carefully and do not rely on them as the sole basis for important
+        decisions.
+    </p>
+
+    <h2>6. Data and Privacy</h2>
+    <p>
+        The application may process information you enter, depending on
+        the features you use. Do not enter passwords, banking credentials,
+        or other sensitive information that is not required. Refer to the
+        application's Privacy Policy for details about data handling.
+    </p>
+
+    <h2>7. Availability</h2>
+    <p>
+        Features may be changed, interrupted, or unavailable during
+        development and maintenance. We do not guarantee uninterrupted
+        operation or error-free results.
+    </p>
+
+    <h2>8. Intellectual Property</h2>
+    <p>
+        Unless otherwise stated, the project's original code and design
+        are provided under the license specified in the project
+        repository. Third-party libraries and assets may have their own
+        license terms.
+    </p>
+
+    <h2>9. Limitation of Liability</h2>
+    <p>
+        To the extent permitted by applicable law, the project developers
+        are not responsible for losses resulting from reliance on
+        demonstration outputs, inaccurate information, or temporary
+        service interruptions.
+    </p>
+
+    <h2>10. Changes to These Terms</h2>
+    <p>
+        These terms may be updated as the application develops. Continued
+        use after an update indicates acceptance of the revised terms.
+    </p>
+
+    <h2>11. Contact</h2>
+    <p>
+        For questions about these terms, contact the project administrator
+        through the contact details provided within the application.
+    </p>
+</main>
+{% endblock %}

@@ -1,0 +1,248 @@
+
+{% extends "base.html" %}
+
+{% block title %}About Us | Visual Risk and AI Intelligence{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(120deg, #6376e8, #7949a5);
+        color: white;
+        text-align: center;
+        padding: 38px 20px;
+        border-radius: 0 0 22px 22px;
+        margin-bottom: 26px;
+    }
+
+    .about-hero h1 {
+        font-size: clamp(1.8rem, 3vw, 2.7rem);
+        font-weight: 750;
+        margin-bottom: 10px;
+    }
+
+    .about-hero p {
+        font-size: 1rem;
+        margin: 0 auto;
+        max-width: 720px;
+        opacity: 0.92;
+    }
+
+    .about-container {
+        max-width: 1050px;
+        margin: 0 auto;
+        padding: 0 20px 50px;
+    }
+
+    .about-card {
+        background: var(--card-bg, #fff);
+        border-radius: 13px;
+        padding: 27px 22px;
+        text-align: center;
+        height: 100%;
+        box-shadow: 0 5px 18px rgba(40, 55, 100, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .about-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(40, 55, 100, 0.14);
+    }
+
+    .about-icon {
+        width: 43px;
+        height: 43px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 19px;
+        margin-bottom: 12px;
+    }
+
+    .icon-mission {
+        background: linear-gradient(135deg, #6579ed, #8050b6);
+    }
+
+    .icon-vision {
+        background: linear-gradient(135deg, #f36ac5, #ff6395);
+    }
+
+    .icon-security {
+        background: linear-gradient(135deg, #32e8a1, #20d5bd);
+    }
+
+    .about-card h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: var(--text-color, #26344b);
+    }
+
+    .about-card p {
+        color: var(--secondary-text, #78849a);
+        font-size: 0.94rem;
+        line-height: 1.75;
+        margin-bottom: 0;
+    }
+
+    .about-story {
+        margin-top: 48px;
+        align-items: center;
+    }
+
+    .about-story h2 {
+        font-size: 1.65rem;
+        font-weight: 750;
+        margin-bottom: 15px;
+        color: var(--text-color, #26344b);
+    }
+
+    .about-story p {
+        color: var(--secondary-text, #78849a);
+        line-height: 1.8;
+    }
+
+    .about-points {
+        list-style: none;
+        padding: 0;
+        margin-top: 18px;
+    }
+
+    .about-points li {
+        margin-bottom: 12px;
+        color: var(--text-color, #35445d);
+    }
+
+    .about-points i {
+        color: #2878f0;
+        margin-right: 9px;
+    }
+
+    .brain-art {
+        text-align: center;
+        padding: 15px;
+    }
+
+    .brain-art i {
+        font-size: clamp(8rem, 17vw, 12rem);
+        background: linear-gradient(135deg, #ff8ca6, #e52b57);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    @media (max-width: 767px) {
+        .about-hero {
+            padding: 32px 18px;
+        }
+
+        .about-story {
+            margin-top: 32px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+    <h1>About Our Platform</h1>
+    <p>
+        Empowering individuals through AI-driven life simulations,
+        predictive analytics, and visual risk intelligence.
+    </p>
+</section>
+
+<div class="about-container">
+
+    <!-- Mission, Vision and Security -->
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="about-card">
+                <div class="about-icon icon-mission">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>
+                    To bridge the gap between daily decisions and
+                    future outcomes by providing real-time data
+                    visualisations and predictive simulation insights.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="about-card">
+                <div class="about-icon icon-vision">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>
+                    To create a personalized Digital Twin for every
+                    user, enabling smarter financial, academic,
+                    and wellness choices effortlessly.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="about-card">
+                <div class="about-icon icon-security">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Data Privacy &amp; Security</h3>
+                <p>
+                    Your data integrity and privacy are paramount.
+                    We use account authentication and access controls
+                    to help keep personal metrics safe and confidential.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Intelligent Simulation Section -->
+    <div class="row about-story">
+
+        <div class="col-md-7">
+            <h2>Intelligent Simulation for Real Life</h2>
+
+            <p>
+                Visual Risk and AI Intelligence standardizes metric
+                tracking across multiple areas of life. Whether
+                managing budgets, tracking study efficiency, or
+                optimizing physical routines, our platform transforms
+                complex data into clear, actionable insights.
+            </p>
+
+            <ul class="about-points">
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Real-time multi-variable simulations
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Personalised AI recommendations
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Unified dashboard for finance, study, and fitness
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Predictive analytics for better planning
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-5 brain-art">
+            <i class="fas fa-brain" aria-hidden="true"></i>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
